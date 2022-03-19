@@ -34,7 +34,7 @@ class ProjectController
             return new Response($project->toJson()); // as api project need to return JsonResponse
         } catch (Model\NotFoundException $e) {
             return new Response('Not found', 404); // as api project need to return JsonResponse
-        } catch (\Throwable $e) {
+        } catch (\Throwable $e) {  // Method does ot return this type
             return new Response('Something went wrong', 500); // as api project need to return JsonResponse
         }
     }

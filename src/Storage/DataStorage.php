@@ -9,7 +9,7 @@ class DataStorage
     /**
      * @var \PDO 
      */
-    public $pdo;
+    public $pdo; // miss hint type
 
     public function __construct()
     {
@@ -39,7 +39,7 @@ class DataStorage
     public function getTasksByProjectId(int $project_id, $limit, $offset) //miss hint argument type and return type  public function getTasksByProjectId(int $project_id,int $limit,int $offset): arrat
     {
         $stmt = $this->pdo->query("SELECT * FROM task WHERE project_id = $project_id LIMIT ?, ?");  // can be weak for sql injection. better to use prepared query
-        $stmt->execute([$limit, $offset]);
+        $stmt->execute([$limit, $offset]); // another moment in read me need only title so nee to select id, title from task
 
         $tasks = [];
         foreach ($stmt->fetchAll() as $row) {

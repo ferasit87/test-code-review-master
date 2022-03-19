@@ -7,7 +7,7 @@ class Project
     /**
      * @var array
      */
-    public $_data; // bad idea to save all fields model as 1 field array
+    public $_data; // bad idea to save all fields model as 1 field array also miss hint
     
     public function __construct($data) //miss hint type argument array
     {
