@@ -7,9 +7,9 @@ class Project
     /**
      * @var array
      */
-    public $_data;
+    public $_data; // bad idea to save all fields model as 1 field array
     
-    public function __construct($data)
+    public function __construct($data) //miss hint type argument array
     {
         $this->_data = $data;
     }
@@ -17,15 +17,15 @@ class Project
     /**
      * @return int
      */
-    public function getId()
+    public function getId() // miss hint return type int
     {
-        return (int) $this->_data['id'];
+        return (int) $this->_data['id']; // miss checking valuable index with  ??. can call undefined index exception
     }
 
     /**
      * @return string
      */
-    public function toJson()
+    public function toJson() //miss hint return type string
     {
         return json_encode($this->_data);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Api\Controller;
+namespace Api\Controller; // namespace app controller
 
 use App\Model;
 use App\Storage\DataStorage;
@@ -14,7 +14,7 @@ class ProjectController
     /**
      * @var DataStorage
      */
-    private $storage;
+    private $storage; // hint type DataStorage $storage
 
     public function __construct(DataStorage $storage)
     {
@@ -23,19 +23,19 @@ class ProjectController
 
     /**
      * @param Request $request
-     * 
+     *
      * @Route("/project/{id}", name="project", method="GET")
      */
-    public function projectAction(Request $request)
+    public function projectAction(Request $request) // miss hit return valus and miss return response
     {
         try {
             $project = $this->storage->getProjectById($request->get('id'));
 
-            return new Response($project->toJson());
+            return new Response($project->toJson()); // as api project need to return JsonResponse
         } catch (Model\NotFoundException $e) {
-            return new Response('Not found', 404);
+            return new Response('Not found', 404); // as api project need to return JsonResponse
         } catch (\Throwable $e) {
-            return new Response('Something went wrong', 500);
+            return new Response('Something went wrong', 500); // as api project need to return JsonResponse
         }
     }
 
@@ -44,27 +44,28 @@ class ProjectController
      *
      * @Route("/project/{id}/tasks", name="project-tasks", method="GET")
      */
-    public function projectTaskPagerAction(Request $request)
+    public function projectTaskPagerAction(Request $request) // miss hint return type Response
     {
-        $tasks = $this->storage->getTasksByProjectId(
+        $tasks = $this->storage->getTasksByProjectId( // this function get required parameters  id , limit and offset but here I see only id we always have
             $request->get('id'),
-            $request->get('limit'),
-            $request->get('offset')
+            $request->get('limit'), // ?? 10 or in function getTasksByProjectId declaration
+            $request->get('offset') // ?? 0 or in function getTasksByProjectId declaration
         );
 
-        return new Response(json_encode($tasks));
+        return new Response(json_encode($tasks)); // as api project need to return JsonResponse
     }
 
     /**
      * @param Request $request
      *
-     * @Route("/project/{id}/tasks", name="project-create-task", method="PUT")
+     * @Route("/project/{id}/tasks", name="project-create-task", method="PUT") method post not put. add new resource with post
      */
-    public function projectCreateTaskAction(Request $request)
+    // post Request to create task better to be in Task controller
+    public function projectCreateTaskAction(Request $request) // miss hint return type JsonResponse
     {
-		$project = $this->storage->getProjectById($request->get('id'));
+		$project = $this->storage->getProjectById($request->get('id')); // function maybe throw exception need to handle try catch
 		if (!$project) {
-			return new JsonResponse(['error' => 'Not found']);
+			return new JsonResponse(['error' => 'Not found']); // need to return with code 404 not found
 		}
 		
 		return new JsonResponse(
